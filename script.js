@@ -1,3 +1,4 @@
+// 1) Bilderliste (einfach: nur Dateinamen)
 const images = [
   "Component 17.png",
   "Component 6.png",
@@ -13,44 +14,38 @@ const images = [
   "Component 16.png",
 ];
 
+// 2) Elemente holen
+let currentImageIndex = 0;
 
 const imgList = document.querySelector("[data-img-list]");
 const dialog = document.getElementById("lightbox");
 const dialogImg = document.getElementById("dialogImg");
-const currentImg = document.getElementById("currentImg");
-const currentHeadText = document.getElementById("imageName");
+const currentImgText = document.getElementById("currentImg");
+const titleText = document.getElementById("imageName");
 
-let currentImgIndex = 0;
-
+// 3) Start
 function render() {
   createImagesList();
-  setupDialogEvents();
+  addDialogEvents();
 }
 
+// 4) Galerie erstellen (klassisch mit for-Schleife)
 function createImagesList() {
-  imgList.innerHTML = images.map(renderListItemHTML).join("");
+  imgList.innerHTML = "";
 
-  const itemButtons = document.querySelectorAll("[data-open-dialog]");
-  itemButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const index = Number(btn.dataset.index);
-      openDialog(index);
-    });
-  });
+  for (let i = 0; i < images.length; i++) {
+    imgList.innerHTML += `
+      <li>
+        <img class="itemImage" src="./img/${images[i]}" alt="Bild ${i + 1}" onclick="openDialog(${i})">
+      </li>
+    `;
+  }
 }
 
-function renderListItemHTML(filename, index) {
-  return `
-    <li>
-      <button class="img-btn" type="button" data-open-dialog data-index="${index}">
-        <img src="./img/${filename}" alt="Bild ${index + 1}" class="itemImage" />
-      </button>
-    </li>
-  `;
-}
-
+// 5) Dialog öffnen/schließen
 function openDialog(index) {
-  updateImg(index);
+  currentImageIndex = index;
+  updateDialogImage();
   dialog.showModal();
 }
 
@@ -58,44 +53,53 @@ function closeDialog() {
   dialog.close();
 }
 
+// 6) Nächstes/Vorheriges Bild (mit Loop)
 function nextImage() {
-  let nextIndex = currentImgIndex + 1;
-  if (nextIndex >= images.length) nextIndex = 0;
-  updateImg(nextIndex);
+  currentImageIndex++;
+
+  if (currentImageIndex >= images.length) {
+    currentImageIndex = 0;
+  }
+
+  updateDialogImage();
 }
 
 function previousImage() {
-  let prevIndex = currentImgIndex - 1;
-  if (prevIndex < 0) prevIndex = images.length - 1;
-  updateImg(prevIndex);
+  currentImageIndex--;
+
+  if (currentImageIndex < 0) {
+    currentImageIndex = images.length - 1;
+  }
+
+  updateDialogImage();
 }
 
- function updateImg(index) {
-  dialogImg.src = `./img/${images[index]}`;
-  dialogImg.alt = `Bild ${index + 1}`;
+// 7) Bild + Text im Dialog aktualisieren
+function updateDialogImage() {
+  dialogImg.src = "./img/" + images[currentImageIndex];
+  dialogImg.alt = "Bild " + (currentImageIndex + 1);
 
-  currentImgIndex = index;
-  currentImg.textContent = `${index + 1} / ${images.length}`;
-  currentHeadText.textContent = images[index];
+  currentImgText.innerHTML = (currentImageIndex + 1) + " / " + images.length;
+
+  // Dateiname ohne .png anzeigen (optional)
+  titleText.innerHTML = images[currentImageIndex].replace(".png", "");
 }
 
-function setupDialogEvents() {
-  if (!dialog) return;
+// 8) Events: ESC, Pfeiltasten, Klick außerhalb
+function addDialogEvents() {
+  // ESC / Pfeiltasten
+  document.addEventListener("keydown", function (event) {
+    if (!dialog.open) return;
 
-  dialog.addEventListener("click", (event) => {
-    const rect = dialog.getBoundingClientRect();
-    const clickedOutside =
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom;
-
-    if (clickedOutside) closeDialog();
+    if (event.key === "Escape") closeDialog();
+    if (event.key === "ArrowRight") nextImage();
+    if (event.key === "ArrowLeft") previousImage();
   });
 
-  dialog.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") previousImage();
-    if (event.key === "ArrowRight") nextImage();
-    if (event.key === "Escape") closeDialog();
+  // Klick außerhalb (Backdrop)
+  dialog.addEventListener("click", function (event) {
+    if (event.target === dialog) {
+      closeDialog();
+    }
   });
 }
