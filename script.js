@@ -70,7 +70,7 @@ function previousImage() {
   updateImg(prevIndex);
 }
 
-function updateImg(index) {
+ function updateImg(index) {
   dialogImg.src = `./img/${images[index]}`;
   dialogImg.alt = `Bild ${index + 1}`;
 

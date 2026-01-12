@@ -121,6 +121,10 @@ h1 {
   background-color: #09212a;
   color: #fafafa;
   padding: 0;
+   position: fixed;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 #lightbox::backdrop {
