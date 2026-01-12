@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <link rel="icon" type="image/png" href="./img/Group.png" />
+
+    <title>Fotogram</title>
+  </head>
+
+  <body onload="render()">
+    <header class="site-header">
+      <img src="./img/Capa_1.png" class="site-logo" alt="Fotogram Logo" />
+    </header>
+
+
+    <main class="page-content">
+      <section>
+        <h1>Your personal photo album</h1>
+        <ul data-img-list class="gallery-grid"></ul>
+      </section>
+
+      <dialog id="lightbox" aria-labelledby="imageName">
+        <header class="lightbox-header">
+          <h2 id="imageName"></h2>
+          <button type="button" onclick="closeDialog()">✕</button>
+        </header>
+
+        <div class="lightbox-body">
+          <img id="dialogImg" src="" alt="" class="lightbox-image" />
+        </div>
+
+        <footer class="lightbox-footer">
+          <button
+            id="previousBtn"
+            type="button"
+            aria-label="Vorheriges Bild anzeigen"
+            onclick="previousImage()"
+          ></button>
+
+          <span id="currentImg"></span>
+
+          <button
+            id="nextBtn"
+            type="button"
+            aria-label="Nächstes Bild anzeigen"
+            onclick="nextImage()"
+          ></button>
+        </footer>
+      </dialog>
+    </main>
+
+   <footer class="page-footer">
+  <img class="footer-wave" src="./img/Subtract.png"/>
+  <div class="footer-content">
+    <img src="./img/Logo.png" alt="Developer Akademie Logo" class="footer-logo-img" />
+    <p>© 2023 Developer Akademie GmbH</p>
+  </div>
+</footer>
+
+
+    <script src="./script.js"></script>
+  </body>
+</html>
