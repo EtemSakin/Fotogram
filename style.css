@@ -4,69 +4,80 @@
   box-sizing: border-box;
 }
 
+ul {
+  list-style: none;
+}
+
+/* Base */
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
   color: #fafafa;
   background-color: #06171e;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .page-content {
   flex: 1;
   margin-top: 110px;
   padding-left: 16px;
   padding-right: 16px;
+
+  /* Schutz gegen horizontales Überlaufen */
+  overflow-x: hidden;
 }
 
-
-ul {
-  list-style: none;
-}
+/* Header */
 .site-header {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 120px;
-        background-color: #09212A;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: #09212a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .site-logo {
   width: auto;
   height: 70px;
 }
+
+/* Headline */
 h1 {
+  /* Desktop bleibt ~179px, auf kleineren Screens wird’s automatisch kleiner */
   margin-top: 179px;
   text-align: center;
-  font-size: 75px;
+  font-size: clamp(50px, 6vw, 75px);
   font-weight: 800;
+  line-height: 1.1;
 }
-.gallery-grid {
-        padding-top: 331px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-    }
 
+/* Gallery */
+.gallery-grid {
+  /* Desktop bleibt ~331px, auf kleineren Screens wird’s automatisch kleiner */
+  padding-top: clamp(24px, 18vw, 331px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
 
 .img-btn {
   border: none;
   background: transparent;
   cursor: pointer;
 }
+
 .itemImage {
   width: 192px;
   height: 200px;
   object-fit: cover;
-
   border-radius: 18px;
   border: 2px solid rgba(18, 70, 88, 0.9);
-
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
   transition: transform 0.2s ease-in;
   display: block;
@@ -76,6 +87,7 @@ h1 {
   transform: scale(1.08);
 }
 
+/* Footer */
 .page-footer {
   margin-top: auto;
   position: relative;
@@ -85,6 +97,7 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
 .footer-wave {
   position: absolute;
   left: 0;
@@ -94,37 +107,50 @@ h1 {
   object-fit: cover;
   opacity: 0.9;
 }
+
 .footer-content {
   position: relative;
-  margin-top: 122px; 
+  margin-top: 122px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
 }
-.site-footer p {
+
+/* Achtung: du verwendest .site-footer p,
+   aber in deinem HTML heißt es bei dir page-footer.
+   Ich lasse es drin, ABER ergänze page-footer p zusätzlich. */
+.site-footer p,
+.page-footer p {
   font-size: 20px;
   font-weight: 400;
   color: #627b84;
   margin: 2px;
 }
+
 .footer-logo-img {
   width: auto;
   height: 50px;
 }
 
+/* Lightbox */
 #lightbox {
   border: none;
   border-radius: 16px;
-  height: 624px;
-  width: 343px;
   background-color: #09212a;
   color: #fafafa;
   padding: 0;
-   position: fixed;
-  inset: 50% auto auto 50%;
+
+  /* immer mittig */
+  position: fixed;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  margin: 0;
+
+  /* mobil/desktop passt sich an */
+  width: min(690px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: hidden;
 }
 
 #lightbox::backdrop {
@@ -158,13 +184,17 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:0 32px;
+  padding: 0 32px;
 }
 
 .lightbox-image {
-  width: 300px;
+  width: 560px;
   height: 375px;
   object-fit: cover;
+
+  /* wichtig: auf kleinen Screens nicht überlaufen */
+  max-width: 100%;
+  max-height: 60vh;
 }
 
 .lightbox-footer {
@@ -172,6 +202,7 @@ h1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 #currentImg {
@@ -200,18 +231,48 @@ h1 {
   transform: scaleX(-1);
 }
 
+/* =========================
+   RESPONSIVE (sauber sortiert)
+========================= */
 
-@media (max-width: 430px) {
-  h1 {
-    margin-top: 60px;
-    font-size: 48px;
-    line-height: 1.1;
+/* <= 768px */
+@media (max-width: 768px) {
+  .site-header {
+    height: 100px;
   }
 
+  .site-logo {
+    height: 60px;
+  }
+
+  .page-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .itemImage {
+    width: 170px;
+    height: 170px;
+  }
+
+  .lightbox-image {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* <= 430px */
+@media (max-width: 430px) {
+  /* Galerie: Grid 2 Spalten */
   .gallery-grid {
+    display: grid;
     grid-template-columns: repeat(2, 150px);
-    gap: 16px;
     justify-content: center;
+    gap: 16px;
+
+    /* mobile: padding-top aus Base nicht “zu groß” wirken lassen */
+    padding-top: 0;
+    margin-top: 40px;
   }
 
   .itemImage {
@@ -219,8 +280,38 @@ h1 {
     height: 150px;
     border-radius: 16px;
   }
+
+  .page-footer {
+    height: 220px;
+  }
+
+  .footer-wave {
+    height: 140px;
+  }
+
+  .footer-logo-img {
+    height: 32px;
+  }
+
+  .page-footer p {
+    font-size: 13px;
+  }
 }
 
+/* <= 320px */
+@media (max-width: 320px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 140px);
+    gap: 12px;
+  }
+
+  .itemImage {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* Desktop */
 @media (min-width: 1440px) {
   .site-header {
     justify-content: flex-start;
@@ -230,10 +321,6 @@ h1 {
   .page-content {
     padding-left: 240px;
     padding-right: 240px;
-  }
-
-  .page-footer {
-    margin-top: 150px;
   }
 
   #lightbox {
@@ -247,6 +334,7 @@ h1 {
   }
 }
 
+/* Sehr breite Screens: zentrieren auf 1440 */
 @media (min-width: 1441px) {
   .site-header {
     padding-left: calc((100% - 1440px) / 2);
