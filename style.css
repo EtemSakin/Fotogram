@@ -8,7 +8,6 @@ ul {
   list-style: none;
 }
 
-/* Base */
 body {
   min-height: 100vh;
   display: flex;
@@ -23,12 +22,10 @@ body {
   margin-top: 110px;
   padding-left: 16px;
   padding-right: 16px;
-
-  /* Schutz gegen horizontales Überlaufen */
+*/
   overflow-x: hidden;
 }
 
-/* Header */
 .site-header {
   position: absolute;
   top: 0;
@@ -46,9 +43,8 @@ body {
   height: 70px;
 }
 
-/* Headline */
 h1 {
-  /* Desktop bleibt ~179px, auf kleineren Screens wird’s automatisch kleiner */
+ 
   margin-top: 179px;
   text-align: center;
   font-size: clamp(50px, 6vw, 75px);
@@ -56,9 +52,8 @@ h1 {
   line-height: 1.1;
 }
 
-/* Gallery */
 .gallery-grid {
-  /* Desktop bleibt ~331px, auf kleineren Screens wird’s automatisch kleiner */
+
   padding-top: clamp(24px, 18vw, 331px);
   display: flex;
   flex-wrap: wrap;
@@ -117,9 +112,6 @@ h1 {
   gap: 12px;
 }
 
-/* Achtung: du verwendest .site-footer p,
-   aber in deinem HTML heißt es bei dir page-footer.
-   Ich lasse es drin, ABER ergänze page-footer p zusätzlich. */
 .site-footer p,
 .page-footer p {
   font-size: 20px;
@@ -133,7 +125,6 @@ h1 {
   height: 50px;
 }
 
-/* Lightbox */
 #lightbox {
   border: none;
   border-radius: 16px;
@@ -141,13 +132,11 @@ h1 {
   color: #fafafa;
   padding: 0;
 
-  /* immer mittig */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  /* mobil/desktop passt sich an */
   width: min(690px, calc(100vw - 32px));
   max-height: calc(100vh - 32px);
   overflow: hidden;
@@ -192,7 +181,6 @@ h1 {
   height: 375px;
   object-fit: cover;
 
-  /* wichtig: auf kleinen Screens nicht überlaufen */
   max-width: 100%;
   max-height: 60vh;
 }
@@ -231,11 +219,6 @@ h1 {
   transform: scaleX(-1);
 }
 
-/* =========================
-   RESPONSIVE (sauber sortiert)
-========================= */
-
-/* <= 768px */
 @media (max-width: 768px) {
   .site-header {
     height: 100px;
@@ -261,16 +244,14 @@ h1 {
   }
 }
 
-/* <= 430px */
 @media (max-width: 430px) {
-  /* Galerie: Grid 2 Spalten */
+ 
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(2, 150px);
     justify-content: center;
     gap: 16px;
 
-    /* mobile: padding-top aus Base nicht “zu groß” wirken lassen */
     padding-top: 0;
     margin-top: 40px;
   }
@@ -298,7 +279,6 @@ h1 {
   }
 }
 
-/* <= 320px */
 @media (max-width: 320px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 140px);
@@ -311,7 +291,6 @@ h1 {
   }
 }
 
-/* Desktop */
 @media (min-width: 1440px) {
   .site-header {
     justify-content: flex-start;
@@ -334,7 +313,6 @@ h1 {
   }
 }
 
-/* Sehr breite Screens: zentrieren auf 1440 */
 @media (min-width: 1441px) {
   .site-header {
     padding-left: calc((100% - 1440px) / 2);
