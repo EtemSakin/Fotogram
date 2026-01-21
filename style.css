@@ -265,7 +265,7 @@ h1 {
     margin-top: 250px;
   }
   .gallery-grid {
-    padding-top: clamp(100px, 4vw, 140px);
+    padding-top: 140px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
